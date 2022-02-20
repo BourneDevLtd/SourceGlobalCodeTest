@@ -1,0 +1,7 @@
+employeemanagement.employees_list:
+  path: '/employees'
+  defaults:
+    _form: '\Drupal\employeemanagement\Form\EmployeesList'
+    _title: 'Employees List'
+  requirements:
+    _access: 'TRUE'

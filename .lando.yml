@@ -1,0 +1,5 @@
+name: source-global-code-test
+recipe: drupal9
+config:
+  webroot: web
+  drupal: true

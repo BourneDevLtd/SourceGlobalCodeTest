@@ -1,0 +1,5 @@
+name: 'EmployeeManagement'
+type: module
+description: 'Module used for SourceGlobal code test. Creates a table listing employees, their department, and who they report to. Queries table to display in admin area.'
+core_version_requirement: ^9
+package: 'Custom'

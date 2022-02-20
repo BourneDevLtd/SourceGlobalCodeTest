@@ -1,0 +1,105 @@
+<?php
+
+/**
+ * @file
+ * Contains employeemanagement.module.
+ */
+
+use Drupal\Core\Routing\RouteMatchInterface;
+use Drupal\Core\Database\Database;
+
+/**
+ * Implements hook_help().
+ */
+function employeemanagement_help($route_name, RouteMatchInterface $route_match) {
+  switch ($route_name) {
+    // Main module help for the employeemanagement module.
+    case 'help.page.employeemanagement':
+      $output = '';
+      $output .= '<h3>' . t('About') . '</h3>';
+      $output .= '<p>' . t('Module used for SourceGlobal code test. Creates a table listing employees, their department, and who they report to. Queries table to display in admin area.') . '</p>';
+      return $output;
+
+    default:
+  }
+}
+
+/**
+ * Implements hook_theme().
+ */
+function employeemanagement_theme() {
+  return [
+    'employeemanagement' => [
+      'render element' => 'children',
+    ],
+  ];
+}
+
+/**
+ * Implements hook_schema().
+ */
+function employeemanagement_schema() {
+  $schema['employees'] = [
+    'description' => 'Stores module data as key/value pairs per user.',
+    'fields' => [
+      'id' => [
+        'description' => 'The employee ID.',
+        'type' => 'serial',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ],
+      'name' => [
+        'description' => 'The name of the employee.',
+        'type' => 'varchar',
+        'length' => 10,
+        'not null' => TRUE,
+      ],
+      'department' => [
+        'description' => 'The department the employee belongs to.',
+        'type' => 'varchar',
+        'length' => 2,
+        'not null' => TRUE,
+      ],
+      'reporting_to' => [
+        'description' => 'ID of the manager the employee reports to.',
+        'type' => 'int',
+        'not null' => FALSE,
+      ],
+    ],
+    'primary key' => ['id'],
+  ];
+  return $schema;
+}
+
+/**
+ * Implements hook_install().
+ */
+function employeemanagement_install() {
+  Database::getConnection()->insert('employees')
+  ->fields([
+    'name',
+    'department',
+    'reporting_to',
+  ])
+  ->values([
+    'name' => 'Tom',
+    'department' => 'HR',
+    'reporting_to' => NULL,
+  ])
+  ->values([
+    'name' => 'John',
+    'department' => 'IT',
+    'reporting_to' => 3,
+  ])
+  ->values([
+    'name' => 'David',
+    'department' => 'IT',
+    'reporting_to' => NULL,
+  ])
+  ->values([
+    'name' => 'Jane',
+    'department' => 'HR',
+    'reporting_to' => 1,
+  ])
+  ->execute();
+}
